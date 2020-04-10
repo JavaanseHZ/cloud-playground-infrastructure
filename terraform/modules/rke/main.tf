@@ -5,12 +5,12 @@ resource rke_cluster "rancher-cluster" {
     for_each = var.nodes
 
     content {
-      address = nodes.value.ipv4_address
+      address = nodes.value.private_ip_address
       hostname_override = nodes.value.name
-      internal_address = lookup(var.private_ips, nodes.value.id, 0)
       user    = var.ssh_user
-      role    = ["controlplane", "etcd", "worker"]
+      role    = nodes.value.roles
       ssh_key = file(var.private_ssh_key_file)
+      ssh_key_path = var.private_ssh_key_file
     }
   }
 

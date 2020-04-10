@@ -1,27 +1,11 @@
 terraform {
-  backend "s3" {
-    skip_requesting_account_id  = true
-    skip_credentials_validation = true
-    skip_get_ec2_platforms      = true
-    skip_metadata_api_check     = true
-  }
-}
 
-module "servers" {
-  source = "./modules/servers"
-
-  environment_name = var.environment_name
-  node_count = var.node_count
-  server_type = var.server_type
-  location = var.server_location
 }
 
 module "rke" {
   source = "./modules/rke"
-
-  nodes = module.servers.nodes
+  nodes = var.servers
   environment_name = var.environment_name
-  private_ips = module.servers.private_ips
 }
 
 provider "kubernetes" {
@@ -37,5 +21,6 @@ module "rancher" {
   kubeconfig_file = module.rke.kubeconfig_file
   kubernetes_cluster = module.rke.cluster
   rancher_hostname = var.rancher_hostname
-  letsencrypt_email = var.rancher_letsencrypt_email
+  rancher_version = var.rancher_version
+  cert_manager_version = var.cert_manager_version
 }

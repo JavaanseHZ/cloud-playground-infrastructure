@@ -1,9 +1,26 @@
 environment_name = "rancher"
-
-server_type = "cx31"
-server_location = "hel1"
-
-node_count = 1
-
-rancher_hostname = "control.devcloud.test.com"
+rancher_hostname = "control"
 rancher_version = "v2.3.6"
+cert_manager_version = "v0.12.0"
+
+servers = {
+  1 = {
+    name               = "control"
+    private_ip_address = "172.22.101.100"
+    roles              = ["controlplane", "etcd", "worker"]
+  },
+
+#  2 = {
+#    name               = "master"
+#    private_ip_address = "172.22.101.101"
+#    port               = 2201
+#    roles              = ["controlplane", "etcd", "worker"]
+#  },
+
+#  3 = {
+#    name               = "slave"
+#    private_ip_address = "172.22.101.102"
+#    port               = 2200
+#    roles              = ["worker"]
+#  },
+}

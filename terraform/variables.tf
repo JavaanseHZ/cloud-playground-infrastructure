@@ -2,11 +2,8 @@
 variable "environment_name" {
 
 }
-variable "node_count" {
 
-}
-
-variable "server_type" {
+variable "servers" {
 
 }
 
@@ -18,7 +15,6 @@ variable "rancher_version" {
 
 }
 
-# Optional
-variable "server_location" {
-  default = "nbg1"
+variable "cert_manager_version" {
+
 }
