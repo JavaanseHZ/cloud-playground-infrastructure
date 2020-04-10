@@ -5,7 +5,7 @@ resource rke_cluster "rancher-cluster" {
     for_each = var.nodes
 
     content {
-      address = nodes.value.private_ip_address
+      address = nodes.value.address
       hostname_override = nodes.value.name
       user    = var.ssh_user
       role    = nodes.value.roles
@@ -17,6 +17,7 @@ resource rke_cluster "rancher-cluster" {
   network {
     plugin = "canal"
   }
+
 }
 
 resource "local_file" "kubeconfig_yaml" {

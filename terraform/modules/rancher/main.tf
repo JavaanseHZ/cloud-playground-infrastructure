@@ -9,7 +9,7 @@ provider "helm" {
 
 resource "null_resource" "cert-manager-crds" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${var.kubeconfig_file} apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/deploy/manifests/00-crds.yaml"
+    command = "kubectl --kubeconfig ${var.kubeconfig_file} apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.14/deploy/manifests/00-crds.yaml"
   }
 }
 
@@ -22,7 +22,7 @@ resource "kubernetes_namespace" "cert-manager-ns" {
     name = "cert-manager"
   }
   timeouts {
-    delete = "1m"
+    delete = "3m"
   }
 }
 
@@ -37,7 +37,7 @@ resource "helm_release" "cert-manager" {
   namespace = "cert-manager"
   repository = data.helm_repository.jetstack.metadata.0.name
   chart      = "cert-manager"
-  version = var.cert_manager_version
+  version    = "v${var.cert_manager_version}"
   wait = true
 }
 
@@ -51,7 +51,7 @@ resource "kubernetes_namespace" "cattle-system-ns" {
   }
 
   timeouts {
-    delete = "1m"
+    delete = "3m"
   }
 }
 
@@ -72,6 +72,16 @@ resource "helm_release" "rancher" {
   set {
     name  = "hostname"
     value = var.rancher_hostname
+  }
+
+  set {
+    name = "ingress.tls.source"
+    value = "rancher"
+  }
+
+  set {
+    name  = "certmanager.version"
+    value = var.cert_manager_version
   }
 
 }

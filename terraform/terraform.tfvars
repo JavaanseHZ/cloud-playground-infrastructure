@@ -1,12 +1,12 @@
 environment_name = "rancher"
 rancher_hostname = "control"
 rancher_version = "v2.3.6"
-cert_manager_version = "v0.12.0"
+cert_manager_version = "0.14.0"
 
 servers = {
   1 = {
     name               = "control"
-    private_ip_address = "172.22.101.100"
+    address            = "172.22.101.100"
     roles              = ["controlplane", "etcd", "worker"]
   },
 
