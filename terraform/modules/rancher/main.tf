@@ -35,7 +35,7 @@ resource "helm_release" "cert-manager" {
   depends_on = [null_resource.cert-manager-crds, kubernetes_namespace.cert-manager-ns]
   name       = "cert-manager"
   namespace = "cert-manager"
-  repository = "${data.helm_repository.jetstack.metadata.0.name}"
+  repository = data.helm_repository.jetstack.metadata.0.name
   chart      = "cert-manager"
   version = var.cert_manager_version
   wait = true
@@ -64,7 +64,7 @@ resource "helm_release" "rancher" {
   depends_on = [helm_release.cert-manager, kubernetes_namespace.cattle-system-ns]
   name       = "rancher"
   namespace = "cattle-system"
-  repository = "${helm_repository.rancher-stable.metadata.0.name}"
+  repository = data.helm_repository.rancher-stable.metadata.0.name
   chart      = "rancher"
   version = var.rancher_version
   wait = true

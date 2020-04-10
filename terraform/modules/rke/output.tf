@@ -3,5 +3,5 @@ output "cluster" {
 }
 
 output "kubeconfig_file" {
-  value = local_file.kubeconfig-yaml.filename
+  value = local_file.kubeconfig_yaml.filename
 }

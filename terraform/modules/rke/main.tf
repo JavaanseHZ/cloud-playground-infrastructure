@@ -19,7 +19,7 @@ resource rke_cluster "rancher-cluster" {
   }
 }
 
-resource "local_file" "kubeconfig-yaml" {
+resource "local_file" "kubeconfig_yaml" {
   filename = "${path.root}/kube_config_${var.environment_name}.yml"
   content = rke_cluster.rancher-cluster.kube_config_yaml
 }
