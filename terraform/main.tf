@@ -15,12 +15,18 @@ provider "kubernetes" {
   cluster_ca_certificate = module.rke.cluster.ca_crt
 }
 
-module "rancher" {
-  source = "./modules/rancher"
+module "rancher_install" {
+  source = "./modules/rancher/install"
 
   kubeconfig_file      = module.rke.kubeconfig_file
   kubernetes_cluster   = module.rke.cluster
   rancher_hostname     = var.rancher_hostname
   rancher_version      = var.rancher_version
   cert_manager_version = var.cert_manager_version
+}
+
+module "rancher_config" {
+  source = "./modules/rancher/config"
+  nodes                   = var.servers
+  rancher_admin_password  = var.rancher_admin_password
 }

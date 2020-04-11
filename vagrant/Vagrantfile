@@ -4,48 +4,34 @@ require_relative 'vagrant_rancheros_guest_plugin.rb'
 require 'ipaddr'
 
 boxes = [
-    {
-        :name => "control",
-        :eth1 => "172.22.101.100",
-        :ssh => "2200",
-        :mem => "4096",
-        :cpu => "4"
-    },
-  # {
-  #     :name => "master",
-  #     :eth1 => "172.22.101.101",
-  #     :ssh => "2201",
-  #     :mem => "2048",
-  #     :cpu => "2"
-  # },
-  # {
-  #     :name => "worker",
-  #     :eth1 => "172.22.101.102",
-  #     :ssh => "2202",
-  #     :mem => "2048",
-  #     :cpu => "2"
-  # }
+      {
+          :name => "control",
+          :eth1 => "172.22.101.100",
+          :mem => "4096",
+          :cpu => "4"
+      },
+      {
+         :name => "worker1",
+         :eth1 => "172.22.101.101",
+         :mem => "2048",
+         :cpu => "2"
+      }
 ]
 
 Vagrant.configure(2) do |config|
     config.vm.box = "chrisurwin/RancherOS"
     config.vm.box_version = "1.5.1"
     config.vm.guest = :linux
+
     config.ssh.insert_key = false
+    config.ssh.private_key_path = ["../keys/id_rsa_terraform_rancher", "~/.vagrant.d/insecure_private_key"]
 
     config.vm.provision "file", source: "../keys/id_rsa_terraform_rancher.pub", destination: "~/.ssh/authorized_keys"
     config.vm.provision "file", source: "../keys/id_rsa_terraform_rancher", destination: "~/.ssh/id_rsa"
-    config.ssh.private_key_path = ["../keys/id_rsa_terraform_rancher", "~/.vagrant.d/insecure_private_key"]
     config.vm.provision :shell, :inline =>"
           chmod 700 ~/.ssh
           chmod -R 600 ~/.ssh/*
         ", privileged: false
-      config.vm.provision :shell, :inline =>"
-            chmod 700 ~/.ssh
-            chmod -R 600 ~/.ssh/*
-            echo '172.22.101.100  control' >> /etc/hosts
-          ", privileged: false
-
 
     boxes.each do |opts|
       config.vm.define opts[:name] do |config|

@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"rke","Source":"./modules/rke","Dir":"modules/rke"},{"Key":"rancher","Source":"./modules/rancher","Dir":"modules/rancher"}]}
+{"Modules":[{"Key":"rke","Source":"./modules/rke","Dir":"modules/rke"},{"Key":"rancher","Source":"./modules/rancher","Dir":"modules/rancher"},{"Key":"rancher_config","Source":"./modules/rancher/config","Dir":"modules/rancher/config"},{"Key":"rancher_install","Source":"./modules/rancher/install","Dir":"modules/rancher/install"},{"Key":"","Source":"","Dir":"."}]}

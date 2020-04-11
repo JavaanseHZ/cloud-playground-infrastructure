@@ -10,7 +10,9 @@ resource rke_cluster "rancher-cluster" {
       role    = nodes.value.roles
       ssh_key = file(var.private_ssh_key_file)
       ssh_key_path = var.private_ssh_key_file
+
     }
+
   }
 
   services {
@@ -29,6 +31,11 @@ resource rke_cluster "rancher-cluster" {
       cluster_domain =  "cluster.local"
       cluster_dns_server =  var.cluster_dns_ip
     }
+  }
+
+  authentication {
+      strategy  = "x509"
+      sans = [var.nodes.1.address]
   }
 
   network {

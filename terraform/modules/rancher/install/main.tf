@@ -57,13 +57,27 @@ resource "null_resource" "hostbased_ingress" {
   }
 }
 
+resource "null_resource" "install_cert" {
+  depends_on = [kubernetes_namespace.cattle-system-ns]
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ${var.kubeconfig_file} -n cattle-system create secret generic tls-ca --from-file=../keys/cacerts.pem"
+  }
+}
+
+resource "null_resource" "install_tls" {
+  depends_on = [kubernetes_namespace.cattle-system-ns]
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ${var.kubeconfig_file} -n cattle-system create secret tls tls-rancher-ingress --cert=../keys/tls.crt --key=../keys/tls.key"
+  }
+}
+
 data "helm_repository" "rancher-stable" {
   name = "rancher-stable"
   url  = "https://releases.rancher.com/server-charts/stable"
 }
 
 resource "helm_release" "rancher" {
-  depends_on = [helm_release.cert-manager, kubernetes_namespace.cattle-system-ns, null_resource.hostbased_ingress]
+  depends_on = [helm_release.cert-manager, kubernetes_namespace.cattle-system-ns, null_resource.hostbased_ingress, null_resource.install_tls, null_resource.install_cert]
   name       = "rancher"
   namespace = "cattle-system"
   repository = data.helm_repository.rancher-stable.metadata.0.name
@@ -74,6 +88,16 @@ resource "helm_release" "rancher" {
   set {
     name  = "hostname"
     value = var.rancher_hostname
+  }
+
+  set {
+    name  = "ingress.tls.source"
+    value = "secret"
+  }
+
+  set {
+    name  = "privateCA"
+    value = "true"
   }
 
 }
