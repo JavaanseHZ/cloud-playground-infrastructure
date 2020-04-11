@@ -1,0 +1,4 @@
+rke_data/
+.terraform/
+*.tfstate
+*.tfstate.backup

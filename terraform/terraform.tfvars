@@ -1,7 +1,7 @@
-environment_name = "rancher"
+environment_name = "control"
 rancher_hostname = "control"
-rancher_version = "v2.3.6"
-cert_manager_version = "0.14.0"
+rancher_version = "v2.3.5"
+cert_manager_version = "0.12.0"
 
 servers = {
   1 = {

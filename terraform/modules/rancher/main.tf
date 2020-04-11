@@ -9,7 +9,7 @@ provider "helm" {
 
 resource "null_resource" "cert-manager-crds" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${var.kubeconfig_file} apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.14/deploy/manifests/00-crds.yaml"
+    command = "kubectl --kubeconfig ${var.kubeconfig_file} apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/deploy/manifests/00-crds.yaml"
   }
 }
 
@@ -21,9 +21,7 @@ resource "kubernetes_namespace" "cert-manager-ns" {
 
     name = "cert-manager"
   }
-  timeouts {
-    delete = "3m"
-  }
+
 }
 
 data "helm_repository" "jetstack" {
@@ -34,7 +32,7 @@ data "helm_repository" "jetstack" {
 resource "helm_release" "cert-manager" {
   depends_on = [null_resource.cert-manager-crds, kubernetes_namespace.cert-manager-ns]
   name       = "cert-manager"
-  namespace = "cert-manager"
+  namespace  = "cert-manager"
   repository = data.helm_repository.jetstack.metadata.0.name
   chart      = "cert-manager"
   version    = "v${var.cert_manager_version}"
@@ -50,8 +48,12 @@ resource "kubernetes_namespace" "cattle-system-ns" {
     name = "cattle-system"
   }
 
-  timeouts {
-    delete = "3m"
+}
+
+resource "null_resource" "hostbased_ingress" {
+  depends_on = [kubernetes_namespace.cattle-system-ns]
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ${var.kubeconfig_file} -n cattle-system apply -f files/ingress-hostbased.yaml"
   }
 }
 
@@ -61,7 +63,7 @@ data "helm_repository" "rancher-stable" {
 }
 
 resource "helm_release" "rancher" {
-  depends_on = [helm_release.cert-manager, kubernetes_namespace.cattle-system-ns]
+  depends_on = [helm_release.cert-manager, kubernetes_namespace.cattle-system-ns, null_resource.hostbased_ingress]
   name       = "rancher"
   namespace = "cattle-system"
   repository = data.helm_repository.rancher-stable.metadata.0.name
@@ -72,16 +74,6 @@ resource "helm_release" "rancher" {
   set {
     name  = "hostname"
     value = var.rancher_hostname
-  }
-
-  set {
-    name = "ingress.tls.source"
-    value = "rancher"
-  }
-
-  set {
-    name  = "certmanager.version"
-    value = var.cert_manager_version
   }
 
 }

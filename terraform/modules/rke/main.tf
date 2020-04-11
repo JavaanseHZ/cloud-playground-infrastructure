@@ -6,11 +6,28 @@ resource rke_cluster "rancher-cluster" {
 
     content {
       address = nodes.value.address
-      hostname_override = nodes.value.name
       user    = var.ssh_user
       role    = nodes.value.roles
       ssh_key = file(var.private_ssh_key_file)
       ssh_key_path = var.private_ssh_key_file
+    }
+  }
+
+  services {
+    kube_api {
+      service_cluster_ip_range =  var.service_ip_range
+      service_node_port_range = "30000-32767"
+      always_pull_images = true
+    }
+
+    kube_controller {
+      cluster_cidr =  var.pod_ip_range
+      service_cluster_ip_range =  var.service_ip_range
+    }
+
+    kubelet {
+      cluster_domain =  "cluster.local"
+      cluster_dns_server =  var.cluster_dns_ip
     }
   }
 
