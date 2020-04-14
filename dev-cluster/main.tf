@@ -9,6 +9,7 @@ provider "rancher2" {
 resource "rancher2_bootstrap" "admin" {
   provider = rancher2.bootstrap
   current_password = var.rancher_admin_password
+  password = var.rancher_admin_password
 }
 
 provider "rancher2" {
@@ -60,7 +61,6 @@ resource rke_cluster "devcloud_cluster" {
 
 }
 
-
 resource "local_file" "kubeconfig_yaml" {
   filename = "${path.root}/rke_data/kube_config_${var.environment_name}.yml"
   content = rke_cluster.devcloud_cluster.kube_config_yaml
@@ -81,13 +81,12 @@ resource "rancher2_cluster" "devcloud_cluster_import" {
   provider = rancher2.admin
   name = "devcloud-cluster"
   description = "rancher devcloud cluster"
-
 }
 
 # register cluster to rancher
 resource "null_resource" register_cluster {
   depends_on = [rke_cluster.devcloud_cluster]
   provisioner "local-exec" {
-    command = "curl --insecure -sfL  '${rancher2_cluster.devcloud_cluster_import.cluster_registration_token}' | kubectl --kubeconfig '${path.root}/rke_data/kube_config_${var.environment_name}.yml' apply -f -"
+    command = "curl --insecure -sfL  ${rancher2_cluster.devcloud_cluster_import.cluster_registration_token[0].manifest_url} | kubectl --kubeconfig ${local_file.kubeconfig_yaml.filename} apply -f -"
   }
 }

@@ -1,0 +1,8 @@
+---
+# Install Docker
+- import_tasks: install-docker.yml
+  become: yes
+
+# Disable swapoff
+- import_tasks: disable-swapoff.yml
+  become: yes

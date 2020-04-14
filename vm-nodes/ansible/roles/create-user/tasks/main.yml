@@ -1,0 +1,15 @@
+- name: Add a new user named rancher
+  user:
+    name: "rancher"
+    password: "{{ 'rancher' | password_hash('sha512') }}"
+    groups: docker,sudo
+  become: yes
+
+- name: Deploy SSH Key
+  become: yes
+  authorized_key:
+    user: "rancher"
+    state: present
+    key: '{{ item }}'
+  with_file:
+    - "{{ playbook_dir }}/../../keys/id_rsa_terraform_rancher.pub"
