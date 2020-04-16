@@ -1,0 +1,76 @@
+version: '3.2'
+services:
+########################################
+# Elastic Search
+########################################
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    command: elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.name=playground
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - http.port=9200
+      - http.cors.allow-origin="*"
+      - http.cors.enabled=true
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+
+  kibana:
+    image: kibana:7.6.2
+    container_name: kibana
+    ports:
+      - "5601:5601"
+########################################
+# Artifactory
+########################################
+  postgres:
+    image: docker.bintray.io/postgres:9.6.11
+    container_name: postgresql
+    environment:
+     - POSTGRES_DB=artifactory
+     - POSTGRES_USER=artifactory
+     - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+  artifactory:
+    image: docker.bintray.io/jfrog/artifactory-jcr:7.4.1
+    container_name: artifactory
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+    restart: always
+    depends_on:
+    - postgres
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+    environment:
+     - JF_ROUTER_ENTRYPOINTS_EXTERNALPORT=5555
+    ports:
+      - 5555:5555 # for router communication
+      - 8081:8081 # for artifactory communication
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"

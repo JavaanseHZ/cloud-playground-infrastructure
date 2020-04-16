@@ -6,8 +6,8 @@ boxes = [
         :name => "control",
         :eth1 => "172.22.101.100",
         :sshport => "2200",
-        :mem => "4096",
-        :cpu => "4"
+        :mem => "2048",
+        :cpu => "2"
     },
     {
        :name => "master",
@@ -21,17 +21,13 @@ boxes = [
        :eth1 => "172.22.101.102",
        :sshport => "2202",
        :mem => "4096",
-       :cpu => "2"
+       :cpu => "4"
     }
 ]
 
 Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/bionic64"
     config.vm.box_version = "20200407.0.0"
-
-    config.vm.provision "ansible" do |ansible|
-       ansible.playbook = "ansible/prepare-nodes.yml"
-    end
 
     config.vm.synced_folder '.', '/vagrant', disabled: true
     boxes.each do |opts|
@@ -46,6 +42,12 @@ Vagrant.configure(2) do |config|
         end
         config.vm.network :forwarded_port, guest: 22, host: opts[:sshport], id: 'ssh'
         config.vm.network :private_network, ip: opts[:eth1], nic_type: "82545EM"
+        if opts[:name] == "worker"
+           config.vm.provision "ansible" do |ansible|
+             ansible.limit = "all"
+             ansible.playbook = "ansible/prepare-nodes.yml"
+          end
+        end
       end
     end
 

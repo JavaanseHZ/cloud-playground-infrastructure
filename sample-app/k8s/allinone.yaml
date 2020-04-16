@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rancher-demo
+  namespace: demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rancher-demo
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rancher-demo
+    spec:
+      containers:
+      - image: 172.22.101.1:5555/docker/demo:latest
+        name: rancher-demo
+      imagePullSecrets:
+      - name: artifactory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rancher-demo
+  namespace: demo
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: rancher-demo
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rancher-demo
+  namespace: demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: rancher-demo
+          servicePort: 80

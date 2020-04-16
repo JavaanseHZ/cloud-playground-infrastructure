@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rancher-demo
+  namespace: demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rancher-demo
+  template:
+    spec:
+      containers:
+      - image: 172.22.101.1:5555/docker/demo
+        name: rancher-demo
