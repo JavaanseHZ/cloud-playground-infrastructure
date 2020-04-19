@@ -1,0 +1,14 @@
+- name: Add nameserver 172.22.101.1
+  become: yes
+  lineinfile:
+    dest: /etc/resolvconf/resolv.conf.d/head
+    line: "nameserver 172.22.101.1"
+    create: yes
+    state: present
+
+- name: Restart resolvconf
+  become: yes
+  service:
+    name: resolvconf
+    enabled: yes
+    state: restarted

@@ -81,6 +81,53 @@ resource "rancher2_cluster" "devcloud_cluster_import" {
   provider = rancher2.admin
   name = "devcloud-cluster"
   description = "rancher devcloud cluster"
+  enable_cluster_monitoring = true
+  cluster_monitoring_input {
+    answers = {
+      "exporter-kubelets.https" = true
+      "exporter-node.enabled" = true
+      "exporter-node.ports.metrics.port" = 9796
+      "exporter-node.resources.limits.cpu" = "200m"
+      "exporter-node.resources.limits.memory" = "200Mi"
+      "grafana.persistence.enabled" = false
+      "grafana.persistence.size" = "5Gi"
+      "grafana.persistence.storageClass" = "default"
+      "operator.resources.limits.memory" = "500Mi"
+      "prometheus.persistence.enabled" = "false"
+      "prometheus.persistence.size" = "10Gi"
+      "prometheus.persistence.storageClass" = "default"
+      "prometheus.persistent.useReleaseName" = "true"
+      "prometheus.resources.core.limits.cpu" = "1000m",
+      "prometheus.resources.core.limits.memory" = "1500Mi"
+      "prometheus.resources.core.requests.cpu" = "750m"
+      "prometheus.resources.core.requests.memory" = "750Mi"
+      "prometheus.retention" = "12h"
+    }
+  }
+}
+
+resource "rancher2_project_logging" "elasticsearchlog" {
+  depends_on = [rke_cluster.devcloud_cluster]
+  provider = rancher2.admin
+  name = "elasticsearch-config"
+  project_id = rancher2_cluster.devcloud_cluster_import.default_project_id
+  kind = "elasticsearch"
+  elasticsearch_config {
+    endpoint = "http://host.javaansehz.cloud:9200"
+    index_prefix = "devcloud-cluster-default-project"
+    ssl_verify = false
+  }
+}
+
+resource "rancher2_registry" "host_registry" {
+  depends_on = [rke_cluster.devcloud_cluster]
+  provider = rancher2.admin
+  name = "host-registry"
+  description = "host-registry"
+  project_id = rancher2_cluster.devcloud_cluster_import.default_project_id
+  registries {
+    address = "host.javaansehz.cloud:5555"
+  }
 }
 
 # register cluster to rancher

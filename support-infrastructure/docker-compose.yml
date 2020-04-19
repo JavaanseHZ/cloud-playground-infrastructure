@@ -7,7 +7,7 @@ services:
     image: cytopia/bind:latest
     container_name: dns-server
     environment:
-      - WILDCARD_DNS=host=172.22.101.1,control=172.22.101.100,master=172.22.101.101,worker=172.22.101.102,devcloud=172.22.101.101
+      - WILDCARD_DNS=host.javaansehz.cloud=172.22.101.1,control.javaansehz.cloud=172.22.101.100,master.javaansehz.cloud=172.22.101.101,worker.javaansehz.cloud=172.22.101.102,devcloud.javaansehz.cloud=172.22.101.101
     ports:
      - "172.22.101.1:53:53/tcp"
      - "172.22.101.1:53:53/udp"

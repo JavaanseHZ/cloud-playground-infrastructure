@@ -33,7 +33,7 @@ configurations.all {
 docker {
     springBootApplication {
         baseImage = 'adoptopenjdk/openjdk11:jdk-11.0.6_10-alpine-slim'
-        images = ['172.22.101.1:5555/demo:latest']
+        images = ['host.javaansehz.cloud:5555/demo:latest']
         ports = [9000, 8080]
     }
 }

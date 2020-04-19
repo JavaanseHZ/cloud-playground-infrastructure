@@ -40,14 +40,11 @@ Vagrant.configure(2) do |config|
           v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
           v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         end
+        config.vm.provision "ansible" do |ansible|
+          ansible.playbook = "ansible/prepare-nodes.yml"
+        end
         config.vm.network :forwarded_port, guest: 22, host: opts[:sshport], id: 'ssh'
         config.vm.network :private_network, ip: opts[:eth1], nic_type: "82545EM"
-        if opts[:name] == "worker"
-           config.vm.provision "ansible" do |ansible|
-             ansible.limit = "all"
-             ansible.playbook = "ansible/prepare-nodes.yml"
-          end
-        end
       end
     end
 

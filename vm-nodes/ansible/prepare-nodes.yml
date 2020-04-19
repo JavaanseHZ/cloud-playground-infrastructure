@@ -2,4 +2,4 @@
   roles:
     - { role: install-docker }
     - { role: create-user }
-    - { role: add-hosts }
+    - { role: add-nameserver }
