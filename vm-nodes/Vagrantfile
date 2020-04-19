@@ -6,8 +6,8 @@ boxes = [
         :name => "control",
         :eth1 => "172.22.101.100",
         :sshport => "2200",
-        :mem => "2048",
-        :cpu => "2"
+        :mem => "4096",
+        :cpu => "4"
     },
     {
        :name => "master",
@@ -20,8 +20,8 @@ boxes = [
        :name => "worker",
        :eth1 => "172.22.101.102",
        :sshport => "2202",
-       :mem => "4096",
-       :cpu => "4"
+       :mem => "2048",
+       :cpu => "2"
     }
 ]
 

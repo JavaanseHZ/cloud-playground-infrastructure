@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version "2.2.6.RELEASE"
+  id "io.spring.dependency-management" version "1.0.9.RELEASE"
+  id "com.bmuschko.docker-spring-boot-application" version "6.4.0"
+}
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation('net.logstash.logback:logstash-logback-encoder:5.1')
+}
+
+configurations.all {
+    exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+docker {
+    springBootApplication {
+        baseImage = 'adoptopenjdk/openjdk11:jdk-11.0.6_10-alpine-slim'
+        images = ['172.22.101.1:5555/demo:latest']
+        ports = [9000, 8080]
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="SystemOut"
+              class="ch.qos.logback.core.ConsoleAppender"
+              target="System.out"
+              withJansi="true">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <version/>
+                <logLevel/>
+                <logLevelValue/>
+                <threadName/>
+                <loggerName/>
+                <callerData/>
+                <tags/>
+                <pattern>
+                    <pattern>{"service": "demo-service"}</pattern>
+                </pattern>
+                <message/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="SystemOut"/>
+    </root>
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
+        <level value="DEBUG" />
+    </logger>
+</configuration>
