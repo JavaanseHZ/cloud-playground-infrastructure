@@ -23,9 +23,9 @@ spec:
         name: rancher-demo-scale
         resources:
           limits:
-            cpu: "200m"
+            cpu: "400m"
           requests:
-            cpu: "50m"
+            cpu: "100m"
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
@@ -66,12 +66,13 @@ metadata:
   name: rancher-demo-scale
   namespace: autoscaling-ns
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /autoscaling/
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-  - http:
+  - host: devcloud.javaansehz.cloud
+    http:
       paths:
-      - path: /autoscaling/
+      - path: /autoscaling/(.*)$
         backend:
           serviceName: rancher-demo-scale
           servicePort: 80
