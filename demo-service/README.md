@@ -2,9 +2,13 @@
 Simple Java/Springboot REST application
 
 ## Description
-* Supports CRUD operations on endpoint /api/demo
+* Supports GET operation on endpoint /api/ipaddress
 
 ## Build Docker Image
 ```
-gradle dockerBuildImage
+./gradlew dockerBuildImage
+```
+## Push Docker Image
+```
+./gradlew dockerPushImage
 ```

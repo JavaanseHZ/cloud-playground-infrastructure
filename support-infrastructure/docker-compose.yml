@@ -7,10 +7,22 @@ services:
     image: cytopia/bind:latest
     container_name: dns-server
     environment:
-      - WILDCARD_DNS=host.javaansehz.cloud=172.22.101.1,control.javaansehz.cloud=172.22.101.100,master.javaansehz.cloud=172.22.101.101,worker.javaansehz.cloud=172.22.101.102,devcloud.javaansehz.cloud=172.22.101.101
+      - WILDCARD_DNS=host.javaansehz.cloud=172.22.101.1,control.javaansehz.cloud=172.22.101.100,master.javaansehz.cloud=172.22.101.101,worker.javaansehz.cloud=172.22.101.102,devcloud.javaansehz.cloud=172.22.101.1
     ports:
      - "172.22.101.1:53:53/tcp"
      - "172.22.101.1:53:53/udp"
+
+########################################
+# Nginx LB
+########################################
+  nginx-server:
+    image: nginx:1.14
+    container_name: nginx-lb
+    ports:
+     - "172.22.101.1:80:80"
+     - "172.22.101.1:443:443"
+    volumes:
+     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
 
 ########################################
 # Elastic Search
