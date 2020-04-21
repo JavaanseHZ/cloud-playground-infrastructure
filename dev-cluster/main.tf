@@ -1,24 +1,3 @@
-provider "rancher2" {
-  alias = "bootstrap"
-  api_url   = "https://${var.rancher_hostname}"
-  bootstrap = true
-  insecure = true
-
-}
-
-resource "rancher2_bootstrap" "admin" {
-  provider = rancher2.bootstrap
-  current_password = var.rancher_admin_password
-  password = var.rancher_admin_password
-}
-
-provider "rancher2" {
-  alias = "admin"
-  api_url = "https://${var.rancher_hostname}"
-  token_key = rancher2_bootstrap.admin.token
-  insecure = true
-}
-
 resource rke_cluster "devcloud_cluster" {
 
   cluster_name = var.environment_name
@@ -74,6 +53,28 @@ resource "local_file" "rke_state" {
 resource "local_file" "rke_cluster_yaml" {
   filename = "${path.root}/rke_data/cluster.yml"
   content = rke_cluster.devcloud_cluster.rke_cluster_yaml
+}
+
+provider "rancher2" {
+  alias = "bootstrap"
+  api_url   = "https://${var.rancher_hostname}"
+  bootstrap = true
+  insecure = true
+
+}
+
+resource "rancher2_bootstrap" "admin" {
+  depends_on = [rke_cluster.devcloud_cluster]
+  provider = rancher2.bootstrap
+  current_password = var.rancher_admin_password
+  password = var.rancher_admin_password
+}
+
+provider "rancher2" {
+  alias = "admin"
+  api_url = "https://${var.rancher_hostname}"
+  token_key = rancher2_bootstrap.admin.token
+  insecure = true
 }
 
 resource "rancher2_cluster" "devcloud_cluster_import" {

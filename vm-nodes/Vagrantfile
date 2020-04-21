@@ -3,21 +3,21 @@
 
 boxes = [
     {
-        :name => "control",
+        :name => "control.javaansehz.cloud",
         :eth1 => "172.22.101.100",
         :sshport => "2200",
         :mem => "4096",
         :cpu => "4"
     },
     {
-       :name => "master",
+       :name => "master.javaansehz.cloud",
        :eth1 => "172.22.101.101",
        :sshport => "2201",
        :mem => "4096",
        :cpu => "4"
     },
     {
-       :name => "worker",
+       :name => "worker.javaansehz.cloud",
        :eth1 => "172.22.101.102",
        :sshport => "2202",
        :mem => "2048",

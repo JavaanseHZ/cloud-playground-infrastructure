@@ -10,7 +10,6 @@ resource rke_cluster "rancher-cluster" {
       role    = nodes.value.roles
       ssh_key = file(var.private_ssh_key_file)
       ssh_key_path = var.private_ssh_key_file
-
     }
 
   }
@@ -36,6 +35,17 @@ resource rke_cluster "rancher-cluster" {
   network {
     plugin = "canal"
   }
+
+  authentication {
+    strategy = "x509"
+
+    sans = [
+      var.rancher_hostname,
+      "172.22.101.100"
+    ]
+  }
+
+
 
 }
 

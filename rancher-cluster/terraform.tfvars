@@ -1,4 +1,4 @@
-environment_name        = "control"
+environment_name        = "control.javaansehz.cloud"
 rancher_hostname        = "control.javaansehz.cloud"
 cert_manager_version    = "0.12.0"
 rancher_version         = "v2.3.6"

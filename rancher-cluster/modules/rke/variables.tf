@@ -25,3 +25,7 @@ variable "pod_ip_range" {
 variable "cluster_dns_ip" {
   default = "10.43.0.10"
 }
+
+variable "rancher_hostname" {
+
+}

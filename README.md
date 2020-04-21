@@ -1,7 +1,9 @@
 # Rancher cluster with Terraform
 ## Prerequisites
 Vagrant and VirtualBox are used for a Test setup.
-The provisioning works just as well with other setups.  
+The provisioning works just as well with other setups.
+### Install Docker
+https://docs.docker.com/engine/install/
 ### Install Vagrant
 https://www.vagrantup.com/downloads.html
 ### Install Ansible
@@ -21,9 +23,17 @@ https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux
 ```console
 cd vm-nodes && vagrant up
 ```
-## Setup Support infrstructure
+## Add docker registry to unsafe registries (/etc/docker/daemon.json)
+```console
+echo "{'insecure-registries' : ['host.javaansehz.cloud:5555']}" | sudo tee -a /etc/docker/daemon.json && sudo service docker restart
+```
+## Setup Support infrastructure
 ```console
 cd support-infrastructure && docker-compose up -d
+```
+## Add nameserver entry localy (/etc/resolvconf/resolv.conf.d/head)
+```console
+echo "nameserver 172.22.101.1" | sudo tee -a /etc/resolvconf/resolv.conf.d/head && sudo service resolvconf restart
 ```
 ## Provision Rancher with Terraform
 ```console

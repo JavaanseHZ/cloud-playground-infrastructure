@@ -6,6 +6,7 @@ module "rke" {
   source           = "./modules/rke"
   nodes            = var.nodes
   environment_name = var.environment_name
+  rancher_hostname = var.rancher_hostname
 }
 
 provider "kubernetes" {
