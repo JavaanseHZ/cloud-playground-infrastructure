@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rancher-demo
+  namespace: simple-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rancher-demo
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rancher-demo
+    spec:
+      containers:
+      - image: host.javaansehz.cloud:5555/demo:latest
+        name: rancher-demo
