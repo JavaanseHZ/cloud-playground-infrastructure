@@ -115,7 +115,7 @@ resource "rancher2_project_logging" "elasticsearchlog" {
   kind = "elasticsearch"
   elasticsearch_config {
     endpoint = "http://host.javaansehz.cloud:9200"
-    index_prefix = "devcloud-cluster-default-project"
+    index_prefix = "devcloud-cluster-project"
     ssl_verify = false
   }
 }

@@ -19,7 +19,9 @@ public class DemoRestController {
 
     @GetMapping(value = "/ipaddress")
     public ResponseEntity<String> ipaddress() throws UnknownHostException {
+        //Math.tan(Math.atan(Math.tan(Math.atan(2345))));
         LOGGER.info(InetAddress.getLocalHost().getHostAddress());
         return new ResponseEntity<>(InetAddress.getLocalHost().getHostAddress(), HttpStatus.OK);
     }
+
 }

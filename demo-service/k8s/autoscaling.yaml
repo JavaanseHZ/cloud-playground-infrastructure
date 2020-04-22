@@ -21,6 +21,7 @@ spec:
       containers:
       - image: host.javaansehz.cloud:5555/demo:latest
         name: rancher-demo-scale
+        imagePullPolicy: Always
         resources:
           limits:
             cpu: "400m"
