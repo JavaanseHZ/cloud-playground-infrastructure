@@ -1,0 +1,39 @@
+/**
+ * League theme for reveal.js.
+ *
+ * This was the default theme pre-3.0.0.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@import url(../../lib/font/league-gothic/league-gothic.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url(../playground.css);
+
+// Override theme settings (see ../template/settings.scss)
+$headingFont: 'Rudiment', sans-serif;
+$mainFont: 'Rudiment', sans-serif;
+$heading4Size: 1.2em;
+
+// Background generator
+@mixin bodyBackground() {
+	@include radial-gradient( rgba(28,30,32,1), rgba(85,90,95,1) );
+}
+
+@mixin bodyBackground() {
+	background: url("../../plugin/chalkboard/img/blackboard.png");
+}
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------

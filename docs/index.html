@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Cloud Infrastructure Playground Presentation</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/league-alt.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<script src="includes/js/shapes.js"></script>
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<script src="plugin/roughjs/rough.min.js"></script>
+		<script src="plugin/roughjs/workly.min.js"></script>
+	</head>
+	<body>
+
+		<div class="reveal">
+			<div class="slides">
+				<!-- 00 Intro -->
+				<section>
+					<section data-external="includes/slides/00-intro/01-start.html"> </section>
+				</section>
+
+				<!-- 01 Docker -->
+				<section>
+					<section data-external="includes/slides/01-docker/01-start.html" data-transition="slide-in fade-out"> </section>
+					<section data-external="includes/slides/01-docker/02-definition.html" data-transition="fade-in fade-out"> </section>
+					<section data-transition="fade-in fade-out">
+						<div style="min-height: 700px;">
+							<h4 class="headerTop"><span class="highlightTextOrange">Docker</span></h4>
+							<div class="verticalCenter, headerTop">
+								<h5>Architecture</h5>
+								<canvas width="320" height="500" id="canvasLayout1"></canvas>
+								<script src="includes/slides/01-docker/03-layout.js" defer /></script>
+							</div>
+						</div>
+					</section>
+					<section data-transition="fade-in slide-out">
+						<div style="min-height: 700px;">
+							<h4 class="headerTop"><span class="highlightTextOrange">Docker</span></h4>
+							<div class="verticalCenter, headerTop">
+								<h5>Image</h5>
+								<div class="headerTop">
+									<div style="width: 470px;display: inline-block;position:relative; top:-150px;">
+										<pre>
+											<code data-trim data-noescape>
+												FROM ubuntu:18.04 AS java
+												RUN apt-get update && \\
+											  apt-get install default-jdk -y
+
+												FROM java
+												WORKDIR /app
+												COPY hello.jar /app/
+												ENTRYPOINT java -jar app.jar
+										  </code>
+									  </pre>
+									</div>
+									<div style="width: 450px;display: inline-block;">
+										<canvas width="500" height="450" id="canvasImage1"></canvas>
+									</div>
+								</div>
+								<script src="includes/slides/01-docker/04-image.js" defer /></script>
+							</div>
+						</div>
+					</section>
+
+				</section>
+
+				<!-- 01 Kubernetes -->
+				<section>
+					<section data-external="includes/slides/02-kubernetes/01-start.html"> </section>
+					<section data-external="includes/slides/02-kubernetes/02-definition.html" data-transition="slide-in fade-out"> </section>
+					<section data-external="includes/slides/02-kubernetes/03-orchestrierung.html" data-transition="fade-in fade-out"> </section>
+					<section data-transition="fade-in fade-out">
+						<div style="min-height: 700px;">
+							<h4 class="headerTop"><span class="highlightTextOrange">Kubernetes</span></h4>
+							<div class="verticalCenter, headerTop">
+								<h5>Architecture</h5>
+								<canvas width="900" height="500" id="canvasArchitektur1"></canvas>
+								<script src="includes/slides/02-kubernetes/04-architektur.js" defer /></script>
+							</div>
+						</div>
+					</section>
+					<section data-transition="fade-in fade-out">
+						<div style="min-height: 700px;">
+							<h4 class="headerTop"><span class="highlightTextOrange">Kubernetes</span></h4>
+							<div class="verticalCenter, headerTop">
+								<h5>Deployment</h5>
+								<div class="headerTop">
+									<div style="width: 450px;display: inline-block;position:relative; top:-100px;">
+										<span>Requirement for Kubernetes</span>
+										<ul style="list-style-type:square;">
+								        <li class="fragment">Pods/Container</li>
+								        <li class="fragment">Replicas</li>
+								        <li class="fragment">Lifecycle</li>
+								        <li class="fragment">State</li>
+										</ul>
+									</div>
+									<div style="width: 450px;display: inline-block;">
+										<canvas width="500" height="450" id="canvasDeployment1"></canvas>
+									</div>
+								</div>
+								<script src="includes/slides/02-kubernetes/05-deployment.js" defer /></script>
+							</div>
+						</div>
+					</section>
+					<section data-transition="fade-in fade-out">
+						<div style="min-height: 700px;">
+							<h4 class="headerTop"><span class="highlightTextOrange">Kubernetes</span></h4>
+							<div class="verticalCenter, headerTop">
+								<h5>Service</h5>
+								<div class="headerTop">
+									<div style="width: 450px;display: inline-block;position:relative; top:-150px;">
+										<span>Network Abstraction</span>
+										<ul style="list-style-type:square;">
+								        <li class="fragment">ClusterIP</li>
+								        <li class="fragment">NodePort</li>
+								        <li class="fragment">LoadBalancer</li>
+										</ul>
+									</div>
+									<div style="width: 450px;display: inline-block;">
+										<canvas width="500" height="450" id="canvasService1"></canvas>
+									</div>
+								</div>
+								<script src="includes/slides/02-kubernetes/06-service.js" defer /></script>
+							</div>
+						</div>
+					</section>
+					<section data-transition="fade-in fade-out">
+						<div style="min-height: 700px;">
+							<h4 class="headerTop"><span class="highlightTextOrange">Kubernetes</span></h4>
+							<div class="verticalCenter, headerTop">
+								<h5>Service</h5>
+								<div class="headerTop">
+									<div style="width: 450px;display: inline-block;position:relative; top:-200px;">
+										<span>Cluster Access Configuration</span>
+										<ul style="list-style-type:square;">
+												<li class="fragment">Routing</li>
+												<li class="fragment">Load Balancing</li>
+												<li class="fragment">Endpoint Customization</li>
+										</ul>
+									</div>
+									<div style="width: 450px;display: inline-block;">
+										<canvas width="500" height="500" id="canvasIngress1"></canvas>
+									</div>
+								</div>
+								<script src="includes/slides/02-kubernetes/07-ingress.js" defer /></script>
+							</div>
+						</div>
+					</section>
+					<section data-external="includes/slides/02-kubernetes/08-administration.html" data-transition="fade-in slide-out"> </section>
+				</section>
+				<section>
+				  <section data-external="includes/slides/03-infrastructure/01-start.html"> </section>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				fragmentInURL: true,
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/chalkboard/chalkboard.js' },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/roughjs/rough.min.js'},
+					{ src: 'plugin/external/external.js',
+						condition: function() {
+							return !!document.querySelector( '[data-external],[data-external-replace]' );
+						}
+					},
+					{ src: 'plugin/spotlight/spotlight.js' },
+				],
+				keyboard: {
+					67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+					66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+					46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+					8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+					68: function() { RevealChalkboard.download()} ,	// downlad recorded chalkboard drawing when 'd' is pressed
+					83: function() { RevealSpotlight.toggleSpotlight()},
+				},
+				chalkboard: {
+					color: [ 'rgba(255,255,255,0.5)', 'rgba(255,255,255,0.5)' ],
+				},
+				spotlight: {
+					// size of the spotlight
+					size: 30,
+					// true: Locks the mouse pointer inside the presentation
+					lockPointerInsideCanvas: false,
+					// toggle spotlight by holding down the mouse key
+					toggleSpotlightOnMouseDown: false,
+					// choose the cursor when spotlight is on. Maybe "crosshair"?
+					presentingCursor: 'none',
+					// true: cursor is always "none" except when spotlight is on.
+					presentingCursorOnlyVisibleWhenSpotlightVisible: false,
+					// enable pointer mode
+					useAsPointer: true,
+					// pointer color (If pointer mode enabled)
+					pointerColor: "#FF8C42dd"
+				},
+			});
+		</script>
+	</body>
+</html>
