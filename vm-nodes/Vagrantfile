@@ -28,6 +28,7 @@ boxes = [
 Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/bionic64"
     config.vm.box_version = "20200407.0.0"
+    config.disksize.size = '20GB'
 
     config.vm.synced_folder '.', '/vagrant', disabled: true
     boxes.each do |opts|
