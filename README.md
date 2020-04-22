@@ -1,6 +1,6 @@
 # Rancher cluster with Terraform
-##
-[Presentation](https://javaansehz.github.io/cloud-playground-infrastructure/)
+## Presentation
+[Link to GitHub Pages](https://javaansehz.github.io/cloud-playground-infrastructure/)
 
 ## Prerequisites
 Vagrant and VirtualBox are used for a Test setup.
