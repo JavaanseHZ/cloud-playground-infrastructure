@@ -145,4 +145,27 @@ function arrow (canvas, startx, starty, endx, endy, color){
         roughness:'1'
     });
 }
+
+function svgPolygon(canvas, vertices, color, text, textcolor, fontsize, fontXpos, fontYpos){
+  var rcC = rough.canvas(canvas);
+
+  rcC.polygon(vertices, {
+      stroke: color,
+      strokeWidth: '5',
+      fill: transientWhite,
+      fillStyle: 'solid',
+      roughness:'2'
+  });
+  if(text != null) {
+      rudimentFont.load().then(function (font) {
+          var context = canvas.getContext("2d");
+          context.fillStyle = textcolor;
+          document.fonts.add(font);
+          context.font =  fontsize + 'px Rudiment'
+          context.textAlign = 'center';
+          context.textBaseline = 'middle';
+          context.fillText(text, fontXpos, fontYpos);
+      });
+  }
+}
 // Functions END
