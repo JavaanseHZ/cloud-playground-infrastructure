@@ -57,7 +57,7 @@ cd demo-service && kubectl --kubeconfig ../dev-cluster/rke_data/kube_config_devc
 ```
 #### Test
 ```console
-curl devcloud
+curl devcloud.javaansehz.cloud/simple/api/ipaddress
 ```
 ### Alive
 ```console

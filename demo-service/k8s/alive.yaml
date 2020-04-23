@@ -10,7 +10,7 @@ metadata:
   name: rancher-demo-alive
   namespace: alive-ns
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: rancher-demo-alive
